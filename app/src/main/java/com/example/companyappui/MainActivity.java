@@ -1,76 +1,89 @@
 package com.example.companyappui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.companyappui.databinding.ActivityMainBinding;
 
-import android.view.Menu;
-import android.view.MenuItem;
-
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    private EditText num1, num2;
+    private TextView result;
+    private Button btnMod, btnAdd, btnSubtract, btnDivide, btnPower;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        num1 = findViewById(R.id.num1);
+        num2 = findViewById(R.id.num2);
+        result = findViewById(R.id.result);
+        btnMod = findViewById(R.id.btnMod);
+        btnAdd = findViewById(R.id.btnAdd);
 
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
+        btnMod.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                double number1 = Double.parseDouble(num1.getText().toString());
+                double number2 = Double.parseDouble(num2.getText().toString());
+                double modResult = number1 % number2;
+                result.setText(String.format("Result: %.2f", modResult));
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onClick(View view) {
+                double number1 = Double.parseDouble(num1.getText().toString());
+                double number2 = Double.parseDouble(num2.getText().toString());
+                double sum = number1 + number2;
+                result.setText(String.format("Result: %.2f", sum));
+            }
+        });
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        btnSubtract.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onClick(View view) {
+                double number1 = Double.parseDouble(num1.getText().toString());
+                double number2 = Double.parseDouble(num2.getText().toString());
+                double resultValue = number1 - number2;
+                result.setText(String.format("Result: %.2f", resultValue));
+            }
+        });
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        btnDivide.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onClick(View view) {
+                double number1 = Double.parseDouble(num1.getText().toString());
+                double number2 = Double.parseDouble(num2.getText().toString());
+                if (number2 == 0) {
+                    result.setText("Cannot divide by zero");
+                } else {
+                    double resultValue = number1 / number2;
+                    result.setText(String.format("Result: %.2f", resultValue));
+                }
+            }
+        });
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        btnPower.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onClick(View view) {
+                double number1 = Double.parseDouble(num1.getText().toString());
+                double number2 = Double.parseDouble(num2.getText().toString());
+                double resultValue = Math.pow(number1, number2);
+                result.setText(String.format("Result: %.2f", resultValue));
+            }
+        });
     }
 }
